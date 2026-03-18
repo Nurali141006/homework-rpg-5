@@ -4,22 +4,18 @@ public class PoisonCoatingDecorator extends ActionDecorator {
     public PoisonCoatingDecorator(AttackAction wrappedAction) {
         super(wrappedAction);
     }
+@Override
+public String getActionName() {
+    return super.getActionName() + " [Poison]";
+}
 
-    @Override
-    public String getActionName() {
-        // TODO: Decide how this decorator changes the visible action name.
-        return super.getActionName();
-    }
+@Override
+public int getDamage() {
+    return super.getDamage() + 3;
+}
 
-    @Override
-    public int getDamage() {
-        // TODO: Add poison-related behavior on top of wrapped damage.
-        return super.getDamage();
-    }
-
-    @Override
-    public String getEffectSummary() {
-        // TODO: Append or compose the poison effect description.
-        return super.getEffectSummary();
-    }
+@Override
+public String getEffectSummary() {
+    return super.getEffectSummary() + ", applies poison (+3 dmg)";
+}
 }
