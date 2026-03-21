@@ -1,11 +1,21 @@
 package com.narxoz.rpg.facade;
 
 public class RewardService {
+
     public String determineReward(AdventureResult battleResult) {
-        // TODO: Decide reward rules based on battle outcome.
+
         if (battleResult == null) {
-            return "TODO";
+            return "No reward";
         }
-        return "TODO";
+
+        String winner = battleResult.getWinner();
+
+        if ("Draw".equals(winner)) {
+            return "Reward: 20 gold (draw)";
+        }
+        if (!winner.toLowerCase().contains("boss")) {
+            return "Reward: 100 gold + rare item";
+        }
+        return "No reward (defeat)";
     }
 }
