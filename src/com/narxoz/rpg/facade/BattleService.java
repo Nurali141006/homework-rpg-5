@@ -13,25 +13,56 @@ public class BattleService {
         this.random = new Random(seed);
         return this;
     }
-
     public AdventureResult battle(HeroProfile hero, BossEnemy boss, AttackAction action) {
-        // TODO: Implement the battle flow.
-        // Questions to answer:
-        // - Who attacks first?
-        // - How many rounds are allowed?
-        // - How is damage resolved?
-        // - How will randomness affect the result, if at all?
-        AdventureResult result = new AdventureResult();
-        result.setWinner("TODO");
-        result.setRounds(0);
-        result.setReward("TODO");
-        result.addLine("TODO: implement battle logic");
 
-        // Keep the field in use so students can decide whether to rely on it.
-        if (random.nextInt(1) == 0) {
-            // TODO: Replace placeholder branch with real deterministic or random logic.
+    AdventureResult result = new AdventureResult();
+
+    int heroHp = hero.getHealth();
+    int bossHp = boss.getHealth();
+
+    int rounds = 0;
+    int maxRounds = 10;
+
+    result.addLine("Battle started: " + hero.getName() + " vs " + boss.getName());
+    result.addLine("Attack used: " + action.getActionName());
+    result.addLine("Effects: " + action.getEffectSummary());
+
+    while (heroHp > 0 && bossHp > 0 && rounds < maxRounds) {
+        rounds++;
+
+        int heroDamage = action.getDamage();
+
+        if (random.nextInt(100) < 20) {
+            heroDamage *= 2;
+            result.addLine("Critical hit!");
         }
 
-        return result;
+        bossHp -= heroDamage;
+        result.addLine("Round " + rounds + ": Hero deals " + heroDamage + " dmg (Boss HP: " + bossHp + ")");
+
+        if (bossHp <= 0) break;
+
+        int bossDamage = boss.getAttackPower();
+        heroHp -= bossDamage;
+
+        result.addLine("Boss deals " + bossDamage + " dmg (Hero HP: " + heroHp + ")");
     }
+
+    String winner;
+    if (heroHp > 0 && bossHp <= 0) {
+        winner = hero.getName();
+    } else if (bossHp > 0 && heroHp <= 0) {
+        winner = boss.getName();
+    } else {
+        winner = "Draw";
+    }
+
+    result.setWinner(winner);
+    result.setRounds(rounds);
+
+    result.addLine("Battle finished. Winner: " + winner);
+
+    return result;
 }
+}
+
