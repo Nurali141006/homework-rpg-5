@@ -41,4 +41,7 @@ public class AdventureResult {
     public List<String> getLog() {
         return Collections.unmodifiableList(log);
     }
+      public void addLines(List<String> lines) {
+        log.addAll(lines);
+    }
 }
